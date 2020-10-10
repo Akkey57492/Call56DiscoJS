@@ -41,11 +41,10 @@ async def help(help): # コマンド「help」を追加
 @bot.command(pass_context=True)
 async def auth(auth): # コマンド「auth」を追加
     embed = discord.Embed(title="認証", description=f"このサーバーを利用するには認証が必要です。\n認証をした時点でルールに同意したとみなされます。\n取り消しも不可能ですのでご注意ください。") # 送信する内容
-    embed.add_field(name="認証方法", value="このメッセージにリアクションを行うと認証することができます。\nリアクション後の認証は自動で行われます。",inline=False)
+    embed.add_field(name="認証方法", value="「#ロール設定」で認証が可能です。",inline=False)
     embed.add_field(name="認証が不可能な場合", value="認証ができない場合は未認証者チャットでお知らせください。", inline=False)
-    msg=await auth.send (embed=embed) # 内容を送信
-    await msg.add_reaction("☑")
-
+    await auth.send (embed=embed) # 内容を送信
+    
 @bot.command()
 async def adsense(adsense): # コマンド「adsense」を追加
     embed = discord.Embed(title="広告表示", description=f"[広告閲覧](https://call56.info/adsense.html)")  # 送信する内容
