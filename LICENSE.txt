@@ -1,5 +1,5 @@
 Call5Bot-Call56DiscordBot
-Ver0.0.0.1-Build-#1
+Ver0.0.0.2-Build-#2
 
 1-コードの使用
 コードの使用は条件付きで許可します。
