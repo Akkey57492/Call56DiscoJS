@@ -7,16 +7,16 @@ bot = commands.Bot(command_prefix='>') # コマンドPrefix
 @bot.event
 async def on_ready(): # Bot起動時の処理
     print('ログインしました') # Bot起動時「ログインしました」を表示
-    webhook_url = 'URL' # 起動通知
+    webhook_url = '起動通知に使用するWebhook' # 起動通知
 
     main_content = {
-        "username": "NAME起動通知-WebHook",
-        "avatar_url": "IconImageURL",
-        "content": "Message"
+        "username": "起動通知の名前",
+        "avatar_url": "起動通知に使用するアイコン",
+        "content": "起動通知のメッセージ"
     }
 
     requests.post(webhook_url, main_content) # 起動通知
-    await bot.change_presence(activity=discord.Game(name="[>help]Status", type=1))  # ステータス表示
+    await bot.change_presence(activity=discord.Game(name="ゲームステータス", type=1))  # ステータス表示
 
 bot.remove_command('help') # コマンド「help」を削除
 
@@ -35,16 +35,10 @@ async def help(help): # コマンド「help」を追加
     embed.add_field(name=">ban @Mention {理由}", value="ユーザーをBanします", inline=False)
     embed.add_field(name=">myinfo", value="自分の情報を確認します", inline=False)
     embed.add_field(name=">mentionuserinfo @Mention", value="メンション先のユーザーの情報を確認します", inline=False)
-    embed.add_field(name=">iduserinfo", value="該当するIDのユーザーの情報を確認します", inline=False)
+    embed.add_field(name=">iduserinfo {ClientID}", value="該当するIDのユーザーの情報を確認します", inline=False)
+    embed.add_field(name=">server {ServerID}", value="該当するIDのDiscordサーバーの情報を確認します", inline=False)
     await help.send (embed=embed) # 内容を送信
 
-@bot.command(pass_context=True)
-async def auth(auth): # コマンド「auth」を追加
-    embed = discord.Embed(title="認証", description=f"このサーバーを利用するには認証が必要です。\n認証をした時点でルールに同意したとみなされます。\n取り消しも不可能ですのでご注意ください。") # 送信する内容
-    embed.add_field(name="認証方法", value="「#ロール設定」で認証が可能です。",inline=False)
-    embed.add_field(name="認証が不可能な場合", value="認証ができない場合は未認証者チャットでお知らせください。", inline=False)
-    await auth.send (embed=embed) # 内容を送信
-    
 @bot.command()
 async def adsense(adsense): # コマンド「adsense」を追加
     embed = discord.Embed(title="広告表示", description=f"[広告閲覧](https://call56.info/adsense.html)")  # 送信する内容
@@ -124,12 +118,13 @@ async def myinfo(myinfo): # コマンド「myinfo」を追加
 
 @bot.command()
 async def mentionuserinfo(mentionuserinfo, member: discord.Member): # コマンド「mentionuserinfo」を追加
-    embed=discord.Embed (title=f'基本ID={member}', description=f"ID={member.id}\nBotであるか(True=はい | False=いいえ)={member.bot}", color=0xff0000) # 送信する内容
+    embed=discord.Embed (title=f'基本ID={member}', description=f"ニックネーム={member.nick}\nID={member.id}\nアカウント作成日={member.created_at}\nBotであるか(True=はい | False=いいえ)={member.bot}", color=0xff0000) # 送信する内容
     await mentionuserinfo.send(embed=embed) # 内容を送信
 
 @bot.command()
-async def iduserinfo(iduserinfo, id: discord.User): # コマンド「iduserinfo」を追加
-    embed=discord.Embed (title=f'基本ID={id}', description=f"ID={id.id}\nBotであるか(True=はい | False=いいえ)={id.bot}", color=0xff0000) # 送信する内容
+async def iduserinfo(iduserinfo, id: int): # コマンド「iduserinfo」を追加
+    user = await bot.fetch_user(id)
+    embed = discord.Embed(title=f'基本ID={user}', description=f"表示名={user.display_name}\nID={user.id}\nBotであるか(True=はい | False=いいえ)={user.bot}", color=0xff0000) # 送信する内容
     await iduserinfo.send(embed=embed) # 内容を送信
 
 bot.run('BotToken') # ボットトークン
