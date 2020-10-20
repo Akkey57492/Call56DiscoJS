@@ -1,5 +1,4 @@
 import discord # Discord.py
-import requests
 from discord.ext import commands # コマンドに必須なコード
 
 bot = commands.Bot(command_prefix='>') # コマンドPrefix
@@ -7,16 +6,7 @@ bot = commands.Bot(command_prefix='>') # コマンドPrefix
 @bot.event
 async def on_ready(): # Bot起動時の処理
     print('ログインしました') # Bot起動時「ログインしました」を表示
-    webhook_url = '起動通知に使用するWebhook' # 起動通知
-
-    main_content = {
-        "username": "起動通知の名前",
-        "avatar_url": "起動通知に使用するアイコン",
-        "content": "起動通知のメッセージ"
-    }
-
-    requests.post(webhook_url, main_content) # 起動通知
-    await bot.change_presence(activity=discord.Game(name="ゲームステータス", type=1))  # ステータス表示
+    await bot.change_presence(activity=discord.Game(name="[>help]Bot正常稼働中", type=1))  # ステータス表示
 
 bot.remove_command('help') # コマンド「help」を削除
 
@@ -31,12 +21,16 @@ async def help(help): # コマンド「help」を追加
     embed.add_field(name=">botinvite {Clientid}", value="ボットの招待リンクを生成します", inline=False)
     embed.add_field(name=">mcbefraudinfo", value="MCPEの不正情報を確認します", inline=False)
     embed.add_field(name=">mcsvadd {ServerName} {IP} {Port}", value="MCSVの追加リンクを生成します", inline=False)
+    embed.add_field(name=">clear", value="チャンネルのメッセージを削除します。", inline=False)
     embed.add_field(name=">kick @Mention {理由}", value="ユーザーをキックします", inline=False)
     embed.add_field(name=">ban @Mention {理由}", value="ユーザーをBanします", inline=False)
     embed.add_field(name=">myinfo", value="自分の情報を確認します", inline=False)
     embed.add_field(name=">mentionuserinfo @Mention", value="メンション先のユーザーの情報を確認します", inline=False)
     embed.add_field(name=">iduserinfo {ClientID}", value="該当するIDのユーザーの情報を確認します", inline=False)
-    embed.add_field(name=">server {ServerID}", value="該当するIDのDiscordサーバーの情報を確認します", inline=False)
+    embed.add_field(name=">server", value="メッセージを送信したDiscordサーバーの情報を確認します", inline=False)
+    embed.add_field(name=">chinfo", value="チャンネルの情報を確認します。", inline=False)
+    embed.add_field(name=">glchadd", value="グローバルチャット用のチャンネルを追加します。", inline=False)
+    embed.add_field(name=">role {RoleID}", value="該当するIDのロールの基本的なパーミッションを確認します。", inline=False)
     await help.send (embed=embed) # 内容を送信
 
 @bot.command()
@@ -77,54 +71,82 @@ async def mcsvadd(mcsvadd, svname, svip, svport): # コマンド「mcsvadd」を
     await mcsvadd.send (embed=embed) # 内容を送信
 
 @bot.command()
-@commands.has_permissions (administrator=True) # パーミッションレベルを指定
 async def message(message, title, *, text): # コマンド「message」を追加
-    embed = discord.Embed(title=f'{title}', description=f"{text}") # 送信する内容
-    await message.send (embed=embed) # 内容を送信
-
-@bot.command()
-async def clear(message):
-    if message.author.guild_permissions.administrator: # パーミッションレベルを指定
-        await message.channel.purge() # チャンネルのメッセージをすべて取得して削除
-        await message.channel.send("メッセージをすべて削除しました") # 削除後のメッセージ
+    if message.author.guild_permissions.administrator:
+        embed = discord.Embed(title=f'{title}', description=f"{text}")  # 送信する内容
+        await message.channel.send(embed=embed)  # 内容を送信
     else:
-        await message.channel.send("メッセージをすべて削除する権限がありません") # 権限がない時のメッセージ
+        embed = discord.Embed(title='権限無し', description='管理者権限がないため埋め込みメッセージの送信を実行することができません。')
+        await message.channel.send(embed=embed)
 
 @bot.command()
-@commands.has_permissions (administrator=True) # パーミッションレベルを指定
+async def clear(clear):
+    if clear.author.guild_permissions.administrator: # パーミッションレベルを指定
+        await clear.channel.purge() # チャンネルのメッセージをすべて取得して削除
+        embed = discord.Embed(title='完了', description='メッセージをすべて削除しました。')
+    else:
+        embed = discord.Embed(title='権限無し', description='管理者権限がないためメッセージの完全削除を実行することができません。')
+        await clear.channel.send(embed=embed)
+
+@bot.command()
 async def kick(kick, member: discord.Member, *, reason=None): # コマンド「kick」を追加
-    await member.kick (reason=reason) # メンバーのキックを実行
-    embed = discord.Embed (title=f'Kickを実行したユーザー={kick.author}', description=f"Kickされたユーザー={member.mention}", color=0xff0000) # 送信する内容
-    embed.add_field (name=f"{member.id}", value=f"{kick.author.created_at}", inline=False)
-    await kick.send (embed=embed) # 内容を送信
+    if kick.author.guild_permissions.administrator:
+        await member.kick(reason=reason)  # メンバーのキックを実行
+        embed = discord.Embed(title=f'Kickを実行したユーザー={kick.author}', description=f"Kickされたユーザー={member.mention}",color=0xff0000)  # 送信する内容
+        embed.add_field(name=f"{member.id}", value=f"{kick.author.created_at}", inline=False)
+        await kick.channel.send(embed=embed)  # 内容を送信
+    else:
+        embed = discord.Embed(title='権限無し', description='管理者権限がないためKickを実行することができません。')
+        await kick.channel.send(embed=embed)
 
 @bot.command()
 @commands.has_permissions (administrator=True) # パーミッションレベルを指定
 async def ban(ban, member: discord.Member, *, reason=None): # コマンド「ban」を追加
-    await member.ban(reason=reason) # メンバーのBanを実行
-    embed=discord.Embed (title=f'Banを実行したユーザー={ban.author}', description=f"Banされたユーザー={member.mention}", color=0xff0000) # 送信する内容
-    embed.add_field (name=f"{member.id}", value=f"{ban.author.created_at}", inline=False)
-    await ban.send (embed=embed) # 内容を送信
+    if ban.author.guild_permissions.administrator:
+        await member.ban(reason=reason)  # メンバーのBanを実行
+        embed = discord.Embed(title=f'Banを実行したユーザー={ban.author}', description=f"Banされたユーザー={member.mention}",color=0xff0000)  # 送信する内容
+        embed.add_field(name=f"{member.id}", value=f"{ban.author.created_at}", inline=False)
+        await ban.send(embed=embed)  # 内容を送信
+    else:
+        embed = discord.Embed(title='権限無し', description='管理者権限がないためBanを実行することができません。')
+        await ban.channel.send(embed=embed)
 
 @bot.command()
-@commands.has_permissions (administrator=True) # パーミッションレベルを指定
 async def editgame(editgame, game): # コマンド「editgame」を追加
-    await bot.change_presence(activity=discord.Game(name=(game), type=1))  # ステータス表示
+    if editgame.author.guild_permissions.administrator:
+        await editgame.change_presence(activity=discord.Game(name=(game), type=1))  # ステータス表示
+    else:
+        embed = discord.Embed(title='権限無し', description='管理者権限がないためステータスを変更することができません。')
+        await editgame.channel.send(embed=embed)
 
 @bot.command()
 async def myinfo(myinfo): # コマンド「myinfo」を追加
-    embed=discord.Embed (title=f'基本ID={myinfo.author}', description=f"ID={myinfo.author.id}\nBotであるか(True=はい | False=いいえ)={myinfo.author.bot}", color=0xff0000) # 送信する内容
+    embed=discord.Embed (title=f'基本ID={myinfo.author}', description=f"ID={myinfo.author.id}\nアカウント作成日={myinfo.author.created_at}\nサーバー参加日={myinfo.author.joined_at}\nBotであるか(True=はい | False=いいえ)={myinfo.author.bot}", color=0xff0000) # 送信する内容
+    embed.set_thumbnail(url=f"{myinfo.author.avatar_url}")
     await myinfo.send(embed=embed) # 内容を送信
 
 @bot.command()
 async def mentionuserinfo(mentionuserinfo, member: discord.Member): # コマンド「mentionuserinfo」を追加
-    embed=discord.Embed (title=f'基本ID={member}', description=f"ニックネーム={member.nick}\nID={member.id}\nアカウント作成日={member.created_at}\nBotであるか(True=はい | False=いいえ)={member.bot}", color=0xff0000) # 送信する内容
+    embed=discord.Embed (title=f'基本ID={member}', description=f"ニックネーム={member.nick}\nID={member.id}\nアカウント作成日={member.created_at}\nサーバー参加日={member.joined_at}\nBotであるか(True=はい | False=いいえ)={member.bot}", color=0xff0000) # 送信する内容
+    embed.set_thumbnail(url=f"{member.avatar_url}")
     await mentionuserinfo.send(embed=embed) # 内容を送信
 
 @bot.command()
 async def iduserinfo(iduserinfo, id: int): # コマンド「iduserinfo」を追加
     user = await bot.fetch_user(id)
-    embed = discord.Embed(title=f'基本ID={user}', description=f"表示名={user.display_name}\nID={user.id}\nBotであるか(True=はい | False=いいえ)={user.bot}", color=0xff0000) # 送信する内容
+    embed = discord.Embed(title=f'基本ID={user}', description=f"アカウント作成日={user.created_at}\nID={user.id}\nBotであるか(True=はい | False=いいえ)={user.bot}", color=0xff0000) # 送信する内容
+    embed.set_thumbnail(url=f"{user.avatar_url}")
     await iduserinfo.send(embed=embed) # 内容を送信
+
+@bot.command()
+async def role(role, id: discord.Role):
+    embed = discord.Embed(title=f'ロール名={id.name}', description=f'ロールID={id.id}\nロール作成日={id.created_at}\nロールの色(16進数カラーコード)={id.color}\n権限コード={id.permissions.value}',color=0x008000)
+    embed.add_field(name='基本的な権限(True=権限あり | False=権限無し)', value=f'管理者権限={id.permissions.administrator}\n監視ログの表示={id.permissions.view_audit_log}\nサーバーインサイトの表示={id.permissions.view_guild_insights}\nサーバー管理={id.permissions.manage_guild}\nロール管理={id.permissions.manage_roles}\nチャンネルの管理={id.permissions.manage_channels}\nメンバーのKick={id.permissions.kick_members}\nメンバーのBan={id.permissions.ban_members}\nインスタント招待の作成={id.permissions.create_instant_invite}\nニックネームの変更={id.permissions.change_nickname}\nニックネームの管理={id.permissions.manage_nicknames}\n絵文字の管理={id.permissions.manage_emojis}\nWebHook管理={id.permissions.manage_webhooks}\nチャンネルを表示={id.permissions.view_channel}',inline=False)
+    await role.send(embed=embed)
+
+@bot.command()
+async def creator(creator):
+    embed = discord.Embed(title='制作者 | 協力', description='制作者=Call56\n協力=名無し | キノコ | [一部のインターネット記事](https://www.bing.com/search?q=discord.py+API%E3%83%AA%E3%83%95%E3%82%A1%E3%83%AC%E3%83%B3%E3%82%B9&cvid=ee44343131a346208a04f3f35ca98587&pglt=515&FORM=ANNTA1&PC=U531)')
+    await creator.send(embed=embed)
 
 bot.run('BotToken') # ボットトークン
