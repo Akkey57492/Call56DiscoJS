@@ -6,7 +6,7 @@ client = discord.Client()
 async def on_message(message):
     if message.author.bot: # メッセージを送信した人がBotであれば無視する
         return
-    GLOBAL_CH_NAME = "ChannelName" # グローバルチャットのチャンネル名
+    GLOBAL_CH_NAME = "call-global-chat" # グローバルチャットのチャンネル名
 
     if message.channel.name == GLOBAL_CH_NAME: # メッセージを転送
 
@@ -15,7 +15,7 @@ async def on_message(message):
         channels = client.get_all_channels()
         global_channels = [ch for ch in channels if ch.name == GLOBAL_CH_NAME]
 
-        embed = discord.Embed(title="ChannelName", # グローバルチャットのチャンネル名
+        embed = discord.Embed(title="call-global-chat", # グローバルチャットのチャンネル名
             description=message.content, color=0x00bfff)
 
         embed.set_author(name=message.author.display_name, # 投稿場所等の詳細な設定
