@@ -8,6 +8,9 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
+    if message.author.bot:
+        return
+    
     if message.content == ('>server'):
         await message.channel.send(f'サーバー名=**{message.guild.name}**\nサーバーID={message.guild.id}\nサーバーレベル={message.guild.premium_tier}\nサーバーブースト数={message.guild.premium_subscription_count}')
 
@@ -42,4 +45,4 @@ async def on_message(message):
     elif message.content == ('everyoneしていい?'):
         await message.channel.send('注意して使ってね!')
 
-client.run('BotToken') # ボットトークン(BotToken)
+client.run('UserToken') # ボットトークン(BotToken)
