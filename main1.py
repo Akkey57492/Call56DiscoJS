@@ -1,37 +1,45 @@
 import discord # Discord.py
 
 from discord.ext import commands # コマンドに必須なコード
+from discord.ext import tasks
 
 bot = commands.Bot(command_prefix='>') # コマンドPrefix
 
 @bot.event
 async def on_ready(): # Bot起動時の処理
     print('ログインしました') # Bot起動時「ログインしました」を表示
-    await bot.change_presence(activity=discord.Streaming(name="[>help]Bot正常稼働中", url="https://www.youtube.com/channel/UCjzl0dXODpu4gLMW4U0SwMQ?view_as=subscriber" , type=1))  # ステータス表示
+    await bot.change_presence(activity=discord.Game(name=f'[>help]Bot正常稼働中 | サーバー数={len(bot.guilds)}', type=1))  # ステータス表示
+
+@tasks.loop(seconds=1)
+async def status():
+   await bot.change_presence(activity=discord.Game(name=f'[>help]Bot正常稼働中 | サーバー数={len(bot.guilds)}'))
 
 bot.remove_command('help') # コマンド「help」を削除
 
 @bot.command()
 async def help(help): # コマンド「help」を追加
-    embed = discord.Embed(title="ヘルプ | Help", description="ヘルプページです", color=0xff6600)  # 送信する内容
+    embed = discord.Embed(title="ヘルプ | Help", description="ヘルプページです\nOP=オペレーター専用\nBeta段階=試験段階(正常動作は保証しない\nDM=ダイレクトメッセージで実行可能)", color=0xff6600)  # 送信する内容
     embed.set_thumbnail(url="https://illust8.com/wp-content/uploads/2018/08/mark_hatena_question_illust_901.png")  # 表示する画像を指定
     embed.add_field(name="コマンド一覧", value="Call56Botで使えるコマンドの一覧です", inline=False)
-    embed.add_field(name=">help", value="ヘルプを表示します", inline=False)
-    embed.add_field(name=">mcsvconnect", value="MCサーバーの接続情報を見ることができます", inline=False)
-    embed.add_field(name=">botinvite {Clientid}", value="ボットの招待リンクを生成します", inline=False)
-    embed.add_field(name=">mcbefraudinfo", value="MCPEの不正情報を確認します", inline=False)
-    embed.add_field(name=">mcsvadd {ServerName} {IP} {Port}", value="MCSVの追加リンクを生成します", inline=False)
-    embed.add_field(name=">clear", value="チャンネルのメッセージを削除します。", inline=False)
-    embed.add_field(name=">kick @Mention {理由}", value="ユーザーをキックします", inline=False)
-    embed.add_field(name=">ban @Mention {理由}", value="ユーザーをBanします", inline=False)
+    embed.add_field(name=">help", value="ヘルプを表示します[DM]", inline=False)
+    embed.add_field(name=">mcsvconnect", value="MCサーバーの接続情報を見ることができます[DM]", inline=False)
+    embed.add_field(name=">botinvite {Clientid}", value="ボットの招待リンクを生成します[DM]", inline=False)
+    embed.add_field(name=">mcbefraudinfo", value="MCPEの不正情報を確認します[DM]", inline=False)
+    embed.add_field(name=">mcsvadd {ServerName} {IP} {Port}", value="MCSVの追加リンクを生成します[DM]", inline=False)
+    embed.add_field(name=">message {タイトル} {内容}", value="Embedメッセージを生成します[OP]", inline=False)
+    embed.add_field(name=">clear", value="チャンネルのメッセージを削除します。[OP]", inline=False)
+    embed.add_field(name=">kick @Mention {理由}", value="ユーザーをキックします[OP]", inline=False)
+    embed.add_field(name=">ban @Mention {理由}", value="ユーザーをBanします[OP]", inline=False)
     embed.add_field(name=">myinfo", value="自分の情報を確認します", inline=False)
     embed.add_field(name=">mentionuserinfo @Mention", value="メンション先のユーザーの情報を確認します", inline=False)
     embed.add_field(name=">iduserinfo {ClientID}", value="該当するIDのユーザーの情報を確認します[Beta段階]", inline=False)
     embed.add_field(name=">server", value="メッセージを送信したDiscordサーバーの情報を確認します", inline=False)
     embed.add_field(name=">chinfo", value="チャンネルの情報を確認します。", inline=False)
-    embed.add_field(name=">glchadd", value="グローバルチャット用のチャンネルを追加します。[Beta段階]", inline=False)
     embed.add_field(name=">role {RoleID}", value="該当するIDのロールの基本的なパーミッションを確認します。[Beta段階]", inline=False)
-    embed.add_field(name=">guildeditname {新しい名前} {変更理由}", value="サーバーの名前を変更します。[Beta段階]", inline=False)
+    embed.add_field(name=">guildeditname {新しい名前} {変更理由}", value="サーバーの名前を変更します。[Beta段階 | OP]", inline=False)
+    embed.add_field(name=">ping", value="Ping値を測定します。[Beta段階 | DM]", inline=False)
+    embed.add_field(name=">mdm @Mention {送信内容}", value="メンション先のユーザーにダイレクトメッセージを送信します。[OP]", inline=False)
+    embed.add_field(name=">report {内容}", value="レポートを行います。[DM]", inline=False)
     await help.send (embed=embed) # 内容を送信
 
 @bot.command()
@@ -125,7 +133,11 @@ async def myinfo(myinfo): # コマンド「myinfo」を追加
 
 @bot.command()
 async def mentionuserinfo(mentionuserinfo, member: discord.Member): # コマンド「mentionuserinfo」を追加
-    embed=discord.Embed (title=f'基本ID={member}', description=f"ニックネーム={member.nick}\nID={member.id}\nアカウント作成日={member.created_at}\nサーバー参加日={member.joined_at}\nBotであるか(True=はい | False=いいえ)={member.bot}", color=0xff0000) # 送信する内容
+    if member.bot:
+        b='Bot'
+    else:
+        b='User'
+    embed=discord.Embed (title=f'基本ID={member}', description=f"ニックネーム={member.nick}\nID={member.id}\nアカウント作成日={member.created_at}\nサーバー参加日={member.joined_at}\nアカウントの種類={b}", color=0xff0000) # 送信する内容
     embed.set_thumbnail(url=f"{member.avatar_url}")
     await mentionuserinfo.send(embed=embed) # 内容を送信
 
@@ -218,4 +230,21 @@ async def guildeditname(guildeditname, name, reason):
         embed = discord.Embed(title='権限無し', description='管理者権限がないためサーバーの名前の変更を実行することができません')
         await guildeditname.send(embed=embed)
 
-bot.run('BotToken') # ボットトークン
+@bot.command()
+async def mdm(mdm, member: discord.Member, message):
+    if mdm.author.guild_permissions.administrator:
+        await mdm.send('ダイレクトメッセージ送信中')
+        await member.send(message)
+        await mdm.send('ダイレクトメッセージを送信しました')
+    else:
+        embed = discord.Embed(title='権限無し', description='権限がないためDM送信を行うことができません。')
+        await mdm.send(embed=embed)
+
+@bot.command()
+async def report(report, *, main):
+    dm = await bot.fetch_user(ID)
+    embed = discord.Embed(title=f'Report | レポート元={report.author}', description=f'レポート内容={main}')
+    await dm.send(embed=embed)
+    await report.send('レポートが完了しました。')
+
+bot.run('Token')
