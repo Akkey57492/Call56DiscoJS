@@ -4,13 +4,13 @@ Call56のDiscordBotのコードすべてです。
 -Python3.8(MicrosoftStore)
 -Node.js(https://nodejs.org/ja/)
 -discord.py(https://github.com/Rapptz/discord.py)
--discord.js(npm install discord.js)
+-discord.js(NPM)
 
 コード記述
 -PyCharm Community Edition 2020.2
 -Atom
 -メモ帳
--repl.it
+-discord
 
 参考
 このコードはインターネット上にある物を参考にして
