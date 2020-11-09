@@ -6,10 +6,10 @@ client.on("message", message => { // メッセージを受け取ったときに�
   if (message.author.bot) { // Botのメッセージは除外
     return;
   }
-  if (message.content == prefix + "ping") { // コマンド
+  if (message.content == prefix + "botping") { // コマンド
     message.channel.send( // メッセージを送信
   {embed: { // Embed
-    title: "Ping測定", // Embedのタイトル
+    title: "BotのPing測定", // Embedのタイトル
     description: "Ping"+client.ws.ping+"ms", // Embedの内容
   }}
 );
