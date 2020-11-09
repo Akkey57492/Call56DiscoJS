@@ -216,7 +216,7 @@ async def role(role, id: discord.Role):
 
 @bot.command()
 async def creator(creator):
-    embed = discord.Embed(title='制作者 | 協力', description='制作者=Call56\n協力=名無し | キノコ | [一部のインターネット記事](https://www.bing.com/search?q=discord.py+API%E3%83%AA%E3%83%95%E3%82%A1%E3%83%AC%E3%83%B3%E3%82%B9&cvid=ee44343131a346208a04f3f35ca98587&pglt=515&FORM=ANNTA1&PC=U531)')
+    embed = discord.Embed(title='制作者 | 協力', description='制作者=Call56\n協力=名無し | キノコ | chasyumens | [一部のインターネット記事](https://www.bing.com/search?q=discord.py+API%E3%83%AA%E3%83%95%E3%82%A1%E3%83%AC%E3%83%B3%E3%82%B9&cvid=ee44343131a346208a04f3f35ca98587&pglt=515&FORM=ANNTA1&PC=U531)')
     await creator.send(embed=embed)
 
 @bot.command()
