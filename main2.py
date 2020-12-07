@@ -1,4 +1,6 @@
 import discord # discord.py
+from discord.ext import commands
+import random
 
 client = discord.Client()
 
@@ -22,12 +24,7 @@ async def on_message(message):
         embed = discord.Embed(title='チャンネル情報', description=f'チャンネル名={message.channel.name}\nチャンネルID={message.channel.id}\nチャンネルタイプ={nw}')
         await message.channel.send(embed=embed)
 
-    elif message.content == ('@everyone'):
-        embed = discord.Embed(title='警告', description=f'{message.author.mention} everyonの使い過ぎにはご注意ください。')
-        await message.channel.send(embed=embed)
+    elif message.content == ('>rn'):
+        await message.channel.send(random.randint(1,99999))
 
-    elif message.content == ('@here'):
-        embed = discord.Embed(title=f'警告', description=f'{message.author.mention} hereの使い過ぎにはご注意ください。')
-        await message.channel.send(embed=embed)
-
-client.run('Token') # ボットトークン(BotToken
+client.run('Token') # ボットトークン(BotToken)
