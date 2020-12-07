@@ -17,30 +17,40 @@ async def status():
 bot.remove_command('help') # コマンド「help」を削除
 
 @bot.command()
-async def help(help): # コマンド「help」を追加
-    embed = discord.Embed(title="ヘルプ | Help", description="ヘルプページです\nOP=オペレーター専用\nBeta段階=試験段階(正常動作は保証しない\nDM=ダイレクトメッセージで実行可能)", color=0xff6600)  # 送信する内容
-    embed.set_thumbnail(url="https://illust8.com/wp-content/uploads/2018/08/mark_hatena_question_illust_901.png")  # 表示する画像を指定
-    embed.add_field(name="コマンド一覧", value="Call56Botで使えるコマンドの一覧です", inline=False)
-    embed.add_field(name=">help", value="ヘルプを表示します[DM]", inline=False)
-    embed.add_field(name=">mcsvconnect", value="MCサーバーの接続情報を見ることができます[DM]", inline=False)
-    embed.add_field(name=">botinvite {Clientid}", value="ボットの招待リンクを生成します[DM]", inline=False)
-    embed.add_field(name=">mcbefraudinfo", value="MCPEの不正情報を確認します[DM]", inline=False)
-    embed.add_field(name=">mcsvadd {ServerName} {IP} {Port}", value="MCSVの追加リンクを生成します[DM]", inline=False)
-    embed.add_field(name=">message {タイトル} {内容}", value="Embedメッセージを生成します[OP]", inline=False)
-    embed.add_field(name=">clear", value="チャンネルのメッセージを削除します。[OP]", inline=False)
-    embed.add_field(name=">kick @Mention {理由}", value="ユーザーをキックします[OP]", inline=False)
-    embed.add_field(name=">ban @Mention {理由}", value="ユーザーをBanします[OP]", inline=False)
-    embed.add_field(name=">myinfo", value="自分の情報を確認します", inline=False)
-    embed.add_field(name=">mentionuserinfo @Mention", value="メンション先のユーザーの情報を確認します", inline=False)
-    embed.add_field(name=">iduserinfo {ClientID}", value="該当するIDのユーザーの情報を確認します[Beta段階]", inline=False)
-    embed.add_field(name=">server", value="メッセージを送信したDiscordサーバーの情報を確認します", inline=False)
-    embed.add_field(name=">chinfo", value="チャンネルの情報を確認します。", inline=False)
-    embed.add_field(name=">role {RoleID}", value="該当するIDのロールの基本的なパーミッションを確認します。[Beta段階]", inline=False)
-    embed.add_field(name=">guildeditname {新しい名前} {変更理由}", value="サーバーの名前を変更します。[Beta段階 | OP]", inline=False)
-    embed.add_field(name=">ping", value="Ping値を測定します。[Beta段階 | DM]", inline=False)
-    embed.add_field(name=">mdm @Mention {送信内容}", value="メンション先のユーザーにダイレクトメッセージを送信します。[OP]", inline=False)
-    embed.add_field(name=">report {内容}", value="レポートを行います。[DM]", inline=False)
-    await help.send (embed=embed) # 内容を送信
+async def help(help, page): # コマンド「help」を追加
+    if page == ('1'):
+        help1 = discord.Embed(title="ヘルプ | Help | 1", description="ヘルプページです\nOP=オペレーター専用\nBeta段階=試験段階(正常動作は保証しない)\nDM=ダイレクトメッセージで実行可能",color=0xff6600)  # 送信する内容
+        help1.set_thumbnail(url="https://illust8.com/wp-content/uploads/2018/08/mark_hatena_question_illust_901.png")  # 表示する画像を指定
+        help1.add_field(name="コマンド一覧", value="Call56Botで使えるコマンドの一覧です", inline=False)
+        help1.add_field(name=">help {ページ(1-4)}", value="ヘルプを表示します[DM]", inline=False)
+        help1.add_field(name=">mcsvconnect", value="MCサーバーの接続情報を見ることができます[DM]", inline=False)
+        help1.add_field(name=">botinvite {Clientid}", value="ボットの招待リンクを生成します[DM]", inline=False)
+        help1.add_field(name=">mcbefraudinfo", value="MCPEの不正情報を確認します[DM]", inline=False)
+        await help.send(embed=help1)
+    if page == ('2'):
+        help2 = discord.Embed(title="ヘルプ | Help | 2", description="ヘルプページです\nOP=オペレーター専用\nBeta段階=試験段階(正常動作は保証しない)\nDM=ダイレクトメッセージで実行可能",color=0xff6600)  # 送信する内容
+        help2.add_field(name=">mcsvadd {ServerName} {IP} {Port}", value="MCSVの追加リンクを生成します[DM]", inline=False)
+        help2.add_field(name=">message {タイトル} {内容}", value="Embedメッセージを生成します[OP]", inline=False)
+        help2.add_field(name=">clear", value="チャンネルのメッセージを削除します。[OP]", inline=False)
+        help2.add_field(name=">kick @Mention {理由}", value="ユーザーをキックします[OP]", inline=False)
+        help2.add_field(name=">ban @Mention {理由}", value="ユーザーをBanします[OP]", inline=False)
+        help2.add_field(name=">myinfo", value="自分の情報を確認します", inline=False)
+        await help.send(embed=help2)
+    if page == ('3'):
+        help3 = discord.Embed(title="ヘルプ | Help | 3",description="ヘルプページです\nOP=オペレーター専用\nBeta段階=試験段階(正常動作は保証しない)\nDM=ダイレクトメッセージで実行可能",color=0xff6600)  # 送信する内容
+        help3.add_field(name=">mui @Mention", value="メンション先のユーザーの情報を確認します", inline=False)
+        help3.add_field(name=">iui {ClientID}", value="該当するIDのユーザーの情報を確認します[Beta段階]", inline=False)
+        help3.add_field(name=">server", value="メッセージを送信したDiscordサーバーの情報を確認します", inline=False)
+        help3.add_field(name=">chinfo", value="チャンネルの情報を確認します。", inline=False)
+        help3.add_field(name=">role {RoleID}", value="該当するIDのロールの基本的なパーミッションを確認します。[Beta段階]", inline=False)
+        help3.add_field(name=">guildeditname {新しい名前} {変更理由}", value="サーバーの名前を変更します。[Beta段階 | OP]", inline=False)
+        await help.send(embed=help3)
+    if page == ('4'):
+        help4 = discord.Embed(title="ヘルプ | Help | 4", description="ヘルプページです\nOP=オペレーター専用\nBeta段階=試験段階(正常動作は保証しない)\nDM=ダイレクトメッセージで実行可能",color=0xff6600)  # 送信する内容
+        help4.add_field(name=">ping", value="Ping値を測定します。[DM]", inline=False)
+        help4.add_field(name=">mdm @Mention {送信内容}", value="メンション先のユーザーにダイレクトメッセージを送信します。[OP]", inline=False)
+        help4.add_field(name=">report {内容}", value="レポートを行います。[DM]", inline=False)
+        await help.send (embed=help4) # 内容を送信
 
 @bot.command()
 async def mcsvconnect(mcsvconnect): # コマンド「mcsvconnect」を追加
@@ -58,15 +68,23 @@ async def botinvite(botinvite, clientid): # コマンド「botinvite」を追加
 async def mcbefraudinfo(mcbefraudinfo): # コマンド「mcbefraudinfo」を追加
     embed = discord.Embed(title="MCPE不正情報", description=f"MinecraftBedRockEditionの不正の情報です。", color=0x800000) # 送信する内容
     embed.set_thumbnail(url="https://avatars3.githubusercontent.com/u/50295306?s=200&v=4")  # 表示する画像を指定
-    embed.add_field(name="Flare", value="1.14.30と1.14.60用の不正クライアントです。\n現在はすでに開発が終了していますがHorionの次に優秀なクライアントでした。",inline=False)
+    embed.add_field(name="Flare", value="1.14.30と1.14.60用のクライアントです。\n現在はすでに開発が終了していますがHorionの次に優秀なクライアントでした。",inline=False)
     embed.add_field(name="Horion", value="1.16.40にも対応していて今もなお更新が続いている非常に優秀なクライアントです。\nアップデートは遅いですが機能もたくさんあります。",inline=False)
-    embed.add_field(name="Chron",value="1.16.1には対応していますが1.16.20以降のバージョンには対応していないクライアントです。\n開発者の知識不足で参加者と協力して1.16.20のPachを開発しています。",inline=False)
-    embed.add_field(name="Atom", value="Flareの後続で製作所も同一人物です。\n1.16.20で開発が終了していて不安定なクライアントです。", inline=False)
-    embed.add_field(name="Nitro",value="とにかく早さを求めたクライアント。\n歩く速度、攻撃速度、ジャンプ後の着地速度等何もかもが早くなります。\nお手軽なクライアントでアップデートも非常に速いです。\n1.16.40にも対応しています。",inline=False)
-    embed.add_field(name="Cipher",value="CipherはAtomをJavaに移植した物で制作者は違います。\nクライアントは安定していてUIに対応しています。\n現在有料か無料かの議論が行われています。",inline=False)
-    embed.add_field(name="Otco", value="とある事情により開発が停止されているクライアントです。\n1.16.1に対応しています。", inline=False)
-    embed.add_field(name="Hydrogen",value="こちらもAtomの後続で制作者はAtom開発者と同じであります。\nクライアントは安定しておりAtomとは違う姿で進化して返ってくる可能性があります。\n現在ランチャーはすでに完成しておりあとは不正ファイルの制作が完成するのを待つのみです。",inline=False)
+    embed.add_field(name="Chron",value="1.16.100対応のクライアントです。\n現在開発中ですがダウンロードやInjectは可能で一部の昨日は使用できます。\n1.16.40は開発されていません。",inline=False)
+    embed.add_field(name="Atom", value="Flareの後続で製作所も同一人物です。\n1.16.20で開発が終了していて不安定なクライアントです。\n現在は完全に開発が停止しております。", inline=False)
+    embed.add_field(name="Nitro",value="とにかく早さを求めたクライアント。\n歩く速度、攻撃速度、ジャンプ後の着地速度等何もかもが早くなります。\nお手軽なクライアントでアップデートも非常に速いです。\n1.16.40にも対応しています。\n現在の状況は不明です。",inline=False)
+    embed.add_field(name="Otco", value="1.16.40に対応している発展途上のクライアントです。", inline=False)
+    embed.add_field(name="ToolBox",value="MCPEで使用可能な最も定番なクライアントです。\nアップデートはHorionよりは早く、高性能です。")
+    embed.add_field(name="情報",value="情報は決して偽装等ではなく本物です。\n記載ミス等がありましたがreportコマンドからお知らせください。",inline=False)
     await mcbefraudinfo.send (embed=embed) # 内容を送信
+
+@bot.command()
+async def mcjefraudinfo(mcbefraudinfo):
+    embed = discord.Embed(title="MCJE不正情報", description=f"MinecraftJavaEditionの不正の情報です。", color=0x800000) # 送信する内容
+    embed.add_field(name="Wurst", value="Javaでは定番のクライアントで高性能かつアップデートが早いクライアントです。")
+    embed.add_field(name="Sigma", value="PVP向けのクライアントです。")
+    embed.add_field(name="Sigma5", value="Sigmaの後継でClickGUIが追加されたりAntiCheatByPass機能が追加されたりしました。\n(ByPassは回避等と言う意味があり、ByPassは有料でした。)")
+    embed.add_field(name="Aristois", value="少し有名なクライアントでWurstよりも有能なくらいすごいクライアントです。")
 
 @bot.command()
 async def mcsvadd(mcsvadd, svname, svip, svport): # コマンド「mcsvadd」を追加
@@ -103,7 +121,7 @@ async def kick(kick, member: discord.Member, *, reason=None): # コマンド「k
         await kick.channel.send(embed=embed)
 
 @bot.command()
-async def ban(ban, member: discord.Member, *, reason=None): # コマンド「ban」を追加
+async def ban(ban, member: discord.Member, *, reason="Ban時に理由が記入されませんでした。"): # コマンド「ban」を追加
     if ban.author.guild_permissions.administrator:
         await member.ban(reason=reason)  # メンバーのBanを実行
         embed = discord.Embed(title=f'Banを実行したユーザー={ban.author}', description=f"Banされたユーザー={member.mention}",color=0xff0000)  # 送信する内容
@@ -132,17 +150,17 @@ async def myinfo(myinfo): # コマンド「myinfo」を追加
     await myinfo.send(embed=embed) # 内容を送信
 
 @bot.command()
-async def mentionuserinfo(mentionuserinfo, member: discord.Member): # コマンド「mentionuserinfo」を追加
+async def mui(mui, member: discord.Member): # コマンド「mentionuserinfo」を追加
     if member.bot:
         b='Bot'
     else:
         b='User'
     embed=discord.Embed (title=f'基本ID={member}', description=f"ニックネーム={member.nick}\nID={member.id}\nアカウント作成日={member.created_at}\nサーバー参加日={member.joined_at}\nアカウントの種類={b}", color=0xff0000) # 送信する内容
     embed.set_thumbnail(url=f"{member.avatar_url}")
-    await mentionuserinfo.send(embed=embed) # 内容を送信
+    await mui.send(embed=embed) # 内容を送信
 
 @bot.command()
-async def iduserinfo(iduserinfo, id: int): # コマンド「iduserinfo」を追加
+async def iui(iui, id: int): # コマンド「iduserinfo」を追加
     user = await bot.fetch_user(id)
     if user.bot:
         b='Bot'
@@ -150,7 +168,7 @@ async def iduserinfo(iduserinfo, id: int): # コマンド「iduserinfo」を追�
         b='User'
     embed = discord.Embed(title=f'基本ID={user}', description=f"アカウント作成日={user.created_at}\nID={user.id}\nBotであるか(True=はい | False=いいえ)={b}", color=0xff0000) # 送信する内容
     embed.set_thumbnail(url=f"{user.avatar_url}")
-    await iduserinfo.send(embed=embed) # 内容を送信
+    await iui.send(embed=embed) # 内容を送信
 
 @bot.command()
 async def role(role, id: discord.Role):
@@ -216,7 +234,7 @@ async def role(role, id: discord.Role):
 
 @bot.command()
 async def creator(creator):
-    embed = discord.Embed(title='制作者 | 協力', description='制作者=Call56\n協力=名無し | キノコ | chasyumens | [一部のインターネット記事](https://www.bing.com/search?q=discord.py+API%E3%83%AA%E3%83%95%E3%82%A1%E3%83%AC%E3%83%B3%E3%82%B9&cvid=ee44343131a346208a04f3f35ca98587&pglt=515&FORM=ANNTA1&PC=U531)')
+    embed = discord.Embed(title='制作者 | 協力', description='制作者=Call56\n協力=名無し | キノコ | [一部のインターネット記事](https://www.bing.com/search?q=discord.py+API%E3%83%AA%E3%83%95%E3%82%A1%E3%83%AC%E3%83%B3%E3%82%B9&cvid=ee44343131a346208a04f3f35ca98587&pglt=515&FORM=ANNTA1&PC=U531)')
     await creator.send(embed=embed)
 
 @bot.command()
@@ -246,5 +264,14 @@ async def report(report, *, main):
     embed = discord.Embed(title=f'Report | レポート元={report.author}', description=f'レポート内容={main}')
     await dm.send(embed=embed)
     await report.send('レポートが完了しました。')
+
+@bot.command()
+async def stop(stop):
+    accept_user = await bot.fetch_user(ID)
+    if stop.author.id == accept_user.id:
+        exit()
+    else:
+        embed = discord.Embed(title="権限無し", description="Bot停止権限がないためBotを停止することができません")
+        await stop.send(embed=embed)
 
 bot.run('Token')
