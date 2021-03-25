@@ -1,18 +1,18 @@
 import discord # Discord.py
+import json
 
 from discord.ext import commands # コマンドに必須なコード
-from discord.ext import tasks
 
 bot = commands.Bot(command_prefix='>') # コマンドPrefix
+
+token_json_open = open("token.json", "r")
+token = json.load(token_json_open)
 
 @bot.event
 async def on_ready(): # Bot起動時の処理
     print('ログインしました') # Bot起動時「ログインしました」を表示
-    await bot.change_presence(activity=discord.Game(name=f'[>help]Bot正常稼働中 | サーバー数={len(bot.guilds)}', type=1))  # ステータス表示
+    await bot.change_presence(activity=discord.Game(name=f'[>help]Bot正常稼働中, type=1))  # ステータス表示
 
-@tasks.loop(seconds=1)
-async def status():
-   await bot.change_presence(activity=discord.Game(name=f'[>help]Bot正常稼働中 | サーバー数={len(bot.guilds)}'))
 
 bot.remove_command('help') # コマンド「help」を削除
 
@@ -274,4 +274,4 @@ async def stop(stop):
         embed = discord.Embed(title="権限無し", description="Bot停止権限がないためBotを停止することができません")
         await stop.send(embed=embed)
 
-bot.run('Token')
+bot.run(token["token"])
