@@ -1,7 +1,7 @@
 Call56のDiscordBotのコードすべてです。
 
 動作
--Python3.8(MicrosoftStore)
+-Python3.8.6(MicrosoftStore)
 -Node.js(https://nodejs.org/ja/)
 -discord.py(https://github.com/Rapptz/discord.py)
 -discord.js(NPM)
