@@ -1,10 +1,11 @@
-const Discord = require("discord.js"); //　discord.js
+const Discord = require("discord.js") //　discord.js
+const token = require("./token.json")
 const client = new Discord.Client()
-let prefix = ">" // Prefix指定
+const prefix = ">" // Prefix指定
 
 client.on("message", message => { // メッセージを受け取ったときに処理を行う
   if (message.author.bot) { // Botのメッセージは除外
-    return;
+    return
   }
   if (message.content == prefix + "botping") { // コマンド
     message.channel.send( // メッセージを送信
@@ -34,4 +35,4 @@ client.on("message", message => { // メッセージを受け取ったときに�
   }
 });
 
-client.login('Token') // Token
+client.login(token.token) // Token
