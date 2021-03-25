@@ -1,7 +1,10 @@
 import discord # discord.py
+import json
 from discord.ext import commands
 import random
 
+token_json_open = open("token.json", "r")
+token = json.load(token_json_open)
 client = discord.Client()
 
 @client.event
@@ -27,4 +30,4 @@ async def on_message(message):
     elif message.content == ('>rn'):
         await message.channel.send(random.randint(1,99999))
 
-client.run('Token') # ボットトークン(BotToken)
+client.run(token["token"]) # ボットトークン(BotToken)
