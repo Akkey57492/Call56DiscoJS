@@ -1,5 +1,16 @@
 import discord # Discord.py
 import json
+import time
+
+status = input("ステータス表示を指定(1: Online | 2: FakeOffline): ")
+if status == "1":
+    s = discord.Status.online
+elif status == "2":
+    s = discord.Status.invisible
+else:
+    print("1か2で指定してください。")
+    time.sleep(10)
+    exit()
 
 from discord.ext import commands # コマンドに必須なコード
 
@@ -11,8 +22,8 @@ token = json.load(token_json_open)
 @bot.event
 async def on_ready(): # Bot起動時の処理
     print('ログインしました') # Bot起動時「ログインしました」を表示
-    await bot.change_presence(activity=discord.Game(name=f'[>help]Bot正常稼働中, type=1))  # ステータス表示
-
+    Activity = discord.Game(name='>help', type=1)
+    await bot.change_presence(activity=Activity, status=s)  # ステータス表示
 
 bot.remove_command('help') # コマンド「help」を削除
 
@@ -69,12 +80,11 @@ async def mcbefraudinfo(mcbefraudinfo): # コマンド「mcbefraudinfo」を追�
     embed = discord.Embed(title="MCPE不正情報", description=f"MinecraftBedRockEditionの不正の情報です。", color=0x800000) # 送信する内容
     embed.set_thumbnail(url="https://avatars3.githubusercontent.com/u/50295306?s=200&v=4")  # 表示する画像を指定
     embed.add_field(name="Flare", value="1.14.30と1.14.60用のクライアントです。\n現在はすでに開発が終了していますがHorionの次に優秀なクライアントでした。",inline=False)
-    embed.add_field(name="Horion", value="1.16.40にも対応していて今もなお更新が続いている非常に優秀なクライアントです。\nアップデートは遅いですが機能もたくさんあります。",inline=False)
-    embed.add_field(name="Chron",value="1.16.100対応のクライアントです。\n現在開発中ですがダウンロードやInjectは可能で一部の昨日は使用できます。\n1.16.40は開発されていません。",inline=False)
-    embed.add_field(name="Atom", value="Flareの後続で製作所も同一人物です。\n1.16.20で開発が終了していて不安定なクライアントです。\n現在は完全に開発が停止しております。", inline=False)
+    embed.add_field(name="Horion", value="1.16.201にも対応していて今もなお更新が続いている非常に優秀なクライアントです。\nアップデートは遅いですが機能もたくさんあります。",inline=False)
+    embed.add_field(name="Chron",value="1.16.201対応のクライアントです。\n現在開発中ですがInject自体はできます。\n1.16.40は開発されていません。",inline=False)
     embed.add_field(name="Nitro",value="とにかく早さを求めたクライアント。\n歩く速度、攻撃速度、ジャンプ後の着地速度等何もかもが早くなります。\nお手軽なクライアントでアップデートも非常に速いです。\n1.16.40にも対応しています。\n現在の状況は不明です。",inline=False)
-    embed.add_field(name="Otco", value="1.16.40に対応している発展途上のクライアントです。", inline=False)
     embed.add_field(name="ToolBox",value="MCPEで使用可能な最も定番なクライアントです。\nアップデートはHorionよりは早く、高性能です。")
+    embed.add_field(name="Badman", value="BadmanはBackdoorが仕掛けられている疑惑があるHackクライアントです。\n機能は豊富でHorionより優秀です。\nただ、ウィルスソフトでBackDoorが検知されます。")
     embed.add_field(name="情報",value="情報は決して偽装等ではなく本物です。\n記載ミス等がありましたがreportコマンドからお知らせください。",inline=False)
     await mcbefraudinfo.send (embed=embed) # 内容を送信
 
@@ -85,6 +95,8 @@ async def mcjefraudinfo(mcbefraudinfo):
     embed.add_field(name="Sigma", value="PVP向けのクライアントです。")
     embed.add_field(name="Sigma5", value="Sigmaの後継でClickGUIが追加されたりAntiCheatByPass機能が追加されたりしました。\n(ByPassは回避等と言う意味があり、ByPassは有料でした。)")
     embed.add_field(name="Aristois", value="少し有名なクライアントでWurstよりも有能なくらいすごいクライアントです。")
+    embed.add_field(name="Impact", value="Impactは2b2tで使える1.12のクライアントです。")
+    await mcjefraudinfo.send(embed=embed)
 
 @bot.command()
 async def mcsvadd(mcsvadd, svname, svip, svport): # コマンド「mcsvadd」を追加
@@ -257,21 +269,5 @@ async def mdm(mdm, member: discord.Member, message):
     else:
         embed = discord.Embed(title='権限無し', description='権限がないためDM送信を行うことができません。')
         await mdm.send(embed=embed)
-
-@bot.command()
-async def report(report, *, main):
-    dm = await bot.fetch_user(ID)
-    embed = discord.Embed(title=f'Report | レポート元={report.author}', description=f'レポート内容={main}')
-    await dm.send(embed=embed)
-    await report.send('レポートが完了しました。')
-
-@bot.command()
-async def stop(stop):
-    accept_user = await bot.fetch_user(ID)
-    if stop.author.id == accept_user.id:
-        exit()
-    else:
-        embed = discord.Embed(title="権限無し", description="Bot停止権限がないためBotを停止することができません")
-        await stop.send(embed=embed)
 
 bot.run(token["token"])
