@@ -33,6 +33,9 @@ client.on("message", message => { // メッセージを受け取ったときに�
     if (message.content.match(/ざこ/)) { // メッセージ
     message.channel.send("そんな煽りしかできないのかなぁー?www") // メッセージ送信
   }
+    if (message.content.match(/https/)) {
+    message.delete()
+  }
 });
 
 client.login(token.token) // Token
