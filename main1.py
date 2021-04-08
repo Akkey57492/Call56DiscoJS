@@ -64,36 +64,16 @@ async def help(help, page): # コマンド「help」を追加
         await help.send (embed=help4) # 内容を送信
 
 @bot.command()
-async def mcsvconnect(mcsvconnect): # コマンド「mcsvconnect」を追加
-    embed = discord.Embed(title="MCSV接続情報", description=f"MCサーバーの接続情報を確認できます(アドレス等)", color=0x669933)  # 送信する内容
-    embed.add_field(name="Call56NetWorkJava版", value="アドレス=play.call56.net\nポート=25565\nアドレス欄入力=play.call56.net:25565",inline=False)
-    embed.add_field(name="Call56NetWorkBedRock版", value="アドレス=ComingSoon...\nポート=ComingSoon...", inline=False)
-    await mcsvconnect.send (embed=embed) # 内容を送信
-
-@bot.command()
 async def botinvite(botinvite, clientid): # コマンド「botinvite」を追加
     embed = discord.Embed(title=f'以下のリンクへブラウザでアクセスすることでBotを招待できます', description=f"https://discord.com/oauth2/authorize?client_id={clientid}&permissions=8&scope=bot") # 送信する内容
     await botinvite.send (embed=embed) # 内容を送信
-
-@bot.command()
-async def mcbefraudinfo(mcbefraudinfo): # コマンド「mcbefraudinfo」を追加
-    embed = discord.Embed(title="MCPE不正情報", description=f"MinecraftBedRockEditionの不正の情報です。", color=0x800000) # 送信する内容
-    embed.set_thumbnail(url="https://avatars3.githubusercontent.com/u/50295306?s=200&v=4")  # 表示する画像を指定
-    embed.add_field(name="Flare", value="1.14.30と1.14.60用のクライアントです。\n現在はすでに開発が終了していますがHorionの次に優秀なクライアントでした。",inline=False)
-    embed.add_field(name="Horion", value="1.16.201にも対応していて今もなお更新が続いている非常に優秀なクライアントです。\nアップデートは遅いですが機能もたくさんあります。",inline=False)
-    embed.add_field(name="Chron",value="1.16.201対応のクライアントです。\n現在開発中ですがInject自体はできます。\n1.16.40は開発されていません。",inline=False)
-    embed.add_field(name="Nitro",value="とにかく早さを求めたクライアント。\n歩く速度、攻撃速度、ジャンプ後の着地速度等何もかもが早くなります。\nお手軽なクライアントでアップデートも非常に速いです。\n1.16.40にも対応しています。\n現在の状況は不明です。",inline=False)
-    embed.add_field(name="ToolBox",value="MCPEで使用可能な最も定番なクライアントです。\nアップデートはHorionよりは早く、高性能です。")
-    embed.add_field(name="Badman", value="BadmanはBackdoorが仕掛けられている疑惑があるHackクライアントです。\n機能は豊富でHorionより優秀です。\nただ、ウィルスソフトでBackDoorが検知されます。")
-    embed.add_field(name="情報",value="情報は決して偽装等ではなく本物です。\n記載ミス等がありましたがreportコマンドからお知らせください。",inline=False)
-    await mcbefraudinfo.send (embed=embed) # 内容を送信
 
 @bot.command()
 async def mcjefraudinfo(mcbefraudinfo):
     embed = discord.Embed(title="MCJE不正情報", description=f"MinecraftJavaEditionの不正の情報です。", color=0x800000) # 送信する内容
     embed.add_field(name="Wurst", value="Javaでは定番のクライアントで高性能かつアップデートが早いクライアントです。")
     embed.add_field(name="Sigma", value="PVP向けのクライアントです。")
-    embed.add_field(name="Sigma5", value="Sigmaの後継でClickGUIが追加されたりAntiCheatByPass機能が追加されたりしました。\n(ByPassは回避等と言う意味があり、ByPassは有料でした。)")
+    embed.add_field(name="Sigma5", value="Sigmaの後継でClickGUIが追加されたりAntiCheatByPass機能が追加されたりしました。\n現在は開発が停止しておりもう間もなく提供も停止するようです。\n(ByPassは回避等と言う意味があり、ByPassは有料でした。)")
     embed.add_field(name="Aristois", value="少し有名なクライアントでWurstよりも有能なくらいすごいクライアントです。")
     embed.add_field(name="Impact", value="Impactは2b2tで使える1.12のクライアントです。")
     await mcjefraudinfo.send(embed=embed)
