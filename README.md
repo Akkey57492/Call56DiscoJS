@@ -19,3 +19,5 @@ Call56のDiscordBotのコードすべてです。
 -名無し
 -chasyumens
 -ネット上の記事等
+
+© 2020 Call56
