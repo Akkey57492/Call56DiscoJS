@@ -11,8 +11,8 @@ discord.jsの勉強用として開発しています。
 (当Botの著作権は放棄します)
 
 # 動作
--Node.js(https://nodejs.org/ja/)<br>
--discord.js(NPM)
+- <a href="https://nodejs.org/ja/">Node.js</a><br>
+- <a href="https://www.npmjs.com/package/discord.js">discord.js(NPM)</a>
 
 # コード記述
 - Visual Studio Code
